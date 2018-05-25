@@ -16029,6 +16029,8 @@ L×W : 2.9mm×1.5mm&lt;p&gt;
 <part name="R8" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
 <part name="C2" library="rcl" deviceset="CPOL-EU" device="E5-4"/>
 <part name="C5" library="rcl" deviceset="CPOL-EU" device="E5-4"/>
+<part name="S3" library="switch-omron" deviceset="10-XX" device=""/>
+<part name="GND14" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -16085,6 +16087,8 @@ L×W : 2.9mm×1.5mm&lt;p&gt;
 <instance part="R8" gate="G$1" x="139.7" y="63.5" rot="R270"/>
 <instance part="C2" gate="G$1" x="106.68" y="25.4"/>
 <instance part="C5" gate="G$1" x="144.78" y="25.4"/>
+<instance part="S3" gate="1" x="86.36" y="91.44"/>
+<instance part="GND14" gate="1" x="86.36" y="78.74"/>
 </instances>
 <busses>
 </busses>
@@ -16177,6 +16181,13 @@ L×W : 2.9mm×1.5mm&lt;p&gt;
 <pinref part="JP1" gate="A" pin="3"/>
 <pinref part="GND13" gate="1" pin="GND"/>
 <wire x1="63.5" y1="38.1" x2="73.66" y2="38.1" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="S3" gate="1" pin="P"/>
+<wire x1="86.36" y1="86.36" x2="86.36" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="GND14" gate="1" pin="GND"/>
+<pinref part="S3" gate="1" pin="P1"/>
+<wire x1="86.36" y1="86.36" x2="88.9" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -16388,6 +16399,21 @@ L×W : 2.9mm×1.5mm&lt;p&gt;
 <pinref part="R8" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="71.12" x2="144.78" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="68.58" x2="139.7" y2="71.12" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="IO16" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="IO16"/>
+<wire x1="55.88" y1="22.86" x2="66.04" y2="22.86" width="0.1524" layer="91"/>
+<label x="63.5" y="22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="S3" gate="1" pin="S"/>
+<wire x1="86.36" y1="96.52" x2="86.36" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="99.06" x2="76.2" y2="99.06" width="0.1524" layer="91"/>
+<label x="76.2" y="99.06" size="1.778" layer="95"/>
+<pinref part="S3" gate="1" pin="S1"/>
+<wire x1="86.36" y1="96.52" x2="88.9" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

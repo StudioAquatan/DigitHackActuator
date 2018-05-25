@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="2" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -138,6 +138,12 @@
 <wire x1="80" y1="0" x2="80" y2="55" width="0" layer="20"/>
 <wire x1="80" y1="55" x2="0" y2="55" width="0" layer="20"/>
 <wire x1="0" y1="55" x2="0" y2="0" width="0" layer="20"/>
+<text x="13.5" y="0.5" size="1.778" layer="21">user</text>
+<text x="27.5" y="0.5" size="1.778" layer="21">EN</text>
+<text x="40" y="0.5" size="1.778" layer="21">IO0</text>
+<text x="50" y="40" size="0.8128" layer="21">TX</text>
+<text x="52.5" y="40" size="0.8128" layer="21">RX</text>
+<text x="55" y="40" size="0.8128" layer="21">GND</text>
 </plain>
 <libraries>
 <library name="rcl">
@@ -1878,6 +1884,12 @@ design rules under a new name.</description>
 <element name="X3" library="akizuki-dcjack" package="MJ-179P-R" value="DCJACK-MJ179P-R" x="10.16" y="21.59"/>
 <element name="C2" library="rcl" package="E5-4" value="" x="14.43" y="13.3" rot="R270"/>
 <element name="C5" library="rcl" package="E5-4" value="" x="15.92" y="42.7" rot="R90"/>
+<element name="S3" library="switch-omron" package="B3F-10XX" value="" x="16" y="5">
+<attribute name="MPN" value="B3F-1000" x="16" y="5" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="" x="16" y="5" size="1.778" layer="27" display="off"/>
+<attribute name="OC_NEWARK" value="36M3542" x="16" y="5" size="1.778" layer="27" display="off"/>
+<attribute name="OC_FARNELL" value="176432" x="16" y="5" size="1.778" layer="27" display="off"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
@@ -1914,6 +1926,8 @@ design rules under a new name.</description>
 <vertex x="84.68" y="-6.35"/>
 <vertex x="84.68" y="59.63"/>
 </polygon>
+<contactref element="S3" pad="3"/>
+<contactref element="S3" pad="4"/>
 </signal>
 <signal name="+3V3">
 <contactref element="U1" pad="2"/>
@@ -2134,6 +2148,20 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$8">
 <via x="75" y="5" extent="1-16" drill="3" diameter="6"/>
+</signal>
+<signal name="IO16">
+<contactref element="U1" pad="27"/>
+<contactref element="S3" pad="1"/>
+<contactref element="S3" pad="2"/>
+<wire x1="12.7488" y1="7.2606" x2="19.2512" y2="7.2606" width="0.4064" layer="16"/>
+<wire x1="19.2512" y1="7.2606" x2="21.2394" y2="7.2606" width="0.4064" layer="16"/>
+<wire x1="21.2394" y1="7.2606" x2="23.5" y2="5" width="0.4064" layer="16"/>
+<wire x1="23.5" y1="5" x2="33" y2="5" width="0.4064" layer="16"/>
+<wire x1="33" y1="5" x2="45.5" y2="17.5" width="0.4064" layer="16"/>
+<wire x1="45.5" y1="17.5" x2="45.5" y2="19" width="0.4064" layer="16"/>
+<via x="45.5" y="19" extent="1-16" drill="0.6"/>
+<wire x1="45.5" y1="19" x2="44.1" y2="20.4" width="0.4064" layer="1"/>
+<wire x1="44.1" y1="20.4" x2="43.29" y2="20.4" width="0.4064" layer="1"/>
 </signal>
 </signals>
 </board>
