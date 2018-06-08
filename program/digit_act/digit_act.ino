@@ -1,5 +1,6 @@
 #include "SimpleWebServer.h"
 #include <WiFi.h>
+#include <HTTPClient.h>
 #include "setting.h"
 
 #define MOTOR0 25
@@ -10,6 +11,9 @@
 IPAddress ip(192, 168, 42, 2);
 IPAddress gateway(192, 168, 42, 1);
 IPAddress subnet(255, 255, 255, 0);
+
+#define DETECT_TIME 30000
+#define MOTOR_RUN_TIME 140
 
 /*
  * digitalWrite(motor0,HIGH/LOW);
@@ -24,17 +28,11 @@ SimpleWebServer server(
   IPAddress(192,168,42,1),  // gateway
   IPAddress(255,255,255,0), 80); // subnet, port
 
-void menu() {
-  const char* cur = digitalRead(LED) ? "ON" : "OFF";
-  String s =  "HTTP/1.1 200 OK\r\nContent-type:text/html\r\n\r\n"
-              "<HTML><BODY style='font-size:48px;'>ESP32_HTTPD_LED1<br/>"
-              "<br/><a href=/ledon>ON</a><br/><a href=/ledoff>OFF</a><br/><br/>"
-              "Current Status = ";
-  s = s + String(cur) + "</BODY></HTML>\r\n";
-  server.send_response(s.c_str());
-}
-
 bool flgDoor = false;
+unsigned long t=0;
+bool counting=false;
+bool flgLab = false;
+
 void doorOn(){
   flgDoor = true;
   Serial.println("door on");
@@ -43,13 +41,20 @@ void doorOff(){
   flgDoor = false;
 }
 
-bool flgLab = false;
 void labOn(){
-  flgLab = true;
-  Serial.println("lab on");
+  if(flgDoor){
+    flgLab = true;
+    Serial.println("lab on");
+  }
 }
 void labOff(){
   flgLab = false;
+}
+
+void resetFlgs(){
+  doorOff();
+  labOff();
+  counting = false;
 }
 
 void defaultHandler(String requestLine){
@@ -82,6 +87,22 @@ void ledToggle(){
   }else{
     ledOn();
   }
+}
+
+void ringChaim(){
+  Serial.println("ring chaim");
+  HTTPClient http;
+  http.begin("http://192.168.42.1/play?file=chaim.wav");
+  http.GET();
+  http.end();
+}
+
+void ringWarning(){
+  Serial.println("ring warning");
+  HTTPClient http;
+  http.begin("http://192.168.42.1/play?file=warning.wav");
+  http.GET();
+  http.end();
 }
 
 void setup() {
@@ -123,6 +144,32 @@ void setup() {
 
 void loop() {
   server.handle_request();
+
+  // ボスのドビラが開いたらカウント開始
+  if(!counting && flgDoor){
+    counting = true;
+    t = millis();
+    ringWarning();
+  }
+
+  // 一定時間内にドアノブに手が掛かったら音を鳴らす
+  if(counting){
+    if((millis()-t)>DETECT_TIME){
+      resetFlgs();
+    }else{
+      if(flgLab){
+        ringChaim();
+        resetFlgs();
+        Serial.println("motor run!!");
+        runMotor0(MOTOR_RUN_TIME);
+        Serial.println("reset motor position and push user button.");
+        while(digitalRead(BUTTON)){
+          delay(100);
+        }
+        Serial.println("ok. program start.");
+      }
+    }
+  }
   delay(10);
 }
 
