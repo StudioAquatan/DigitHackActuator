@@ -1,7 +1,7 @@
-int const motor0=25;
-int const motor1=26;
-int const led=27;
-int const button=16;
+#define MOTOR0 25
+#define MOTOR1 26
+#define LED 27
+#define BUTTON 16
 
 /*
  * digitalWrite(motor0,HIGH/LOW);
@@ -10,19 +10,35 @@ int const button=16;
  * 
  */
 
+void runMotor0(int runTime){
+  digitalWrite(MOTOR0, HIGH);
+  delay(runTime);
+  digitalWrite(MOTOR0, LOW);
+}
+void runMotor1(int runTime){
+  digitalWrite(MOTOR1, HIGH);
+  delay(runTime);
+  digitalWrite(MOTOR1, LOW);
+}
+
 void setup() {
-  // put your setup code here, to run once:
-  pinMode(motor0,OUTPUT);
-  pinMode(motor1,OUTPUT);
-  pinMode(led,OUTPUT);
-  pinMode(button,INPUT_PULLUP);
-  //Serial.begin(115200);
+
+  // pin mode setup
+  pinMode(MOTOR0, OUTPUT);
+  pinMode(MOTOR1, OUTPUT);
+  pinMode(LED, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+
+  // serial setup
+  Serial.begin(115200);
 }
 
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+  Serial.println("hey!");
+  delay(1000);
 
 }
 
